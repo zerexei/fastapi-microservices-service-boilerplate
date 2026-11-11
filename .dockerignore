@@ -1,0 +1,31 @@
+# Version Control
+.git
+.gitignore
+
+# Environments & Dependency Managers
+.venv/
+venv/
+.uv/
+
+# Python Cache & Linting
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local Secrets & Config
+.env
+.env.*
+README.md
+
+# Tests (Exclude from production runtime image)
+tests/
+
+# IDEs & OS Files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

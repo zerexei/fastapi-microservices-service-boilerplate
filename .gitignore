@@ -1,0 +1,47 @@
+# Python / Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments & Dependency Managers
+.venv/
+venv/
+ENV/
+env/
+.uv/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.nox/
+.tox/
+
+# Linters & Formatters
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Database & Cache Artifacts
+*.db
+*.sqlite3
+*.dump
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
