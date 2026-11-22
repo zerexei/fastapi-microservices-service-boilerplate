@@ -3,7 +3,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.database import get_session
 from app.schemas import UserCreate, UserResponse
-from app.services import UserService
+from app.services import UserAlreadyExistsError, UserService
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -12,13 +12,16 @@ router = APIRouter(prefix="/users", tags=["users"])
 async def create_user(user_in: UserCreate, db: AsyncSession = Depends(get_session)):
     # Note: In a production app, hash the password with bcrypt/argon2 here.
     hashed_password = f"{user_in.password}_hashed_placeholder"
-    user = await UserService.create_user(
-        db,
-        email=user_in.email,
-        hashed_password=hashed_password,
-        full_name=user_in.full_name,
-    )
-    return user
+    try:
+        user = await UserService.create_user(
+            db,
+            email=user_in.email,
+            hashed_password=hashed_password,
+            full_name=user_in.full_name,
+        )
+        return user
+    except UserAlreadyExistsError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)) from e
 
 
 @router.get("/{user_id}", response_model=UserResponse)

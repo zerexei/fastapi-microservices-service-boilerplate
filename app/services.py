@@ -1,9 +1,19 @@
-from fastapi import HTTPException, status
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.models import User
 
+
+class ServiceError(Exception):
+    """Base exception for service-layer errors."""
+
+
+class UserAlreadyExistsError(ServiceError):
+    """Raised when attempting to create a user with an existing email."""
+
+    def __init__(self, email: str):
+        self.email = email
+        super().__init__(f"User with email '{email}' already exists.")
 
 class UserService:
     @staticmethod
@@ -23,10 +33,7 @@ class UserService:
         # Check if email is already taken
         existing_user = await UserService.get_by_email(db, email=email)
         if existing_user:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email already registered",
-            )
+            raise UserAlreadyExistsError(email)
 
         db_user = User(
             email=email,
